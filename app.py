@@ -13,7 +13,7 @@ from PIL import Image
 import numpy as np 
 
 # Load Trained Model 
-
+@st.cache_resource
 def load_model():
     return tf.keras.models.load_model("oxford_flower_model.keras")
 
@@ -58,3 +58,4 @@ st.success(f"Prediction : {class_names[predicted_class]}")
 st.info(f"Confidence : {confidence: .2f}%")
 
 #Rum The App 
+
