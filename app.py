@@ -1,7 +1,7 @@
 import os
 import gdown
 
-MODEL_PATH = "flower_model.keras"
+MODEL_PATH = "oxford_flower_model.keras"
 
 if not os.path.exists(MODEL_PATH):
     url = "https://1drv.ms/u/c/376e03e0a6ed20bb/IQBMC0AH6t0lQ6qSKdgEbgX8AeAHMSgIyQqGywKzD6U3BRo?e=6xJXtG"
@@ -13,6 +13,7 @@ from PIL import Image
 import numpy as np 
 
 # Load Trained Model 
+
 @st.cache_resource
 def load_model():
     return tf.keras.models.load_model("oxford_flower_model.keras")
@@ -33,6 +34,7 @@ def preprocess_img(img):
     img_array=np.expand_dims(img_array)
     return img_array
 
+
 #Build UI 
 st.title("OXFORD FLOWER IMAGE CLASSIFICATION")
 st.write("Upload a flower image to classify it ")
@@ -42,10 +44,23 @@ uploaded_file=st.file_uploader("Choose an Image",
                                type=["jpg","jpeg","png"])
 
 #Prediction Logic
+# if uploaded_file is not None:
+#     image=Image.open(uploaded_file)
+#     st.image(image, caption="Uploaded image",width=300)
+#     img_array=preprocess_img(image)
 if uploaded_file is not None:
-    image=Image.open(uploaded_file)
-    st.image(image, caption="Uploaded image",width=300)
-    img_array=preprocess_img(image)
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Uploaded image", width=300)
+
+    img_array = preprocess_img(image)
+    predictions = model.predict(img_array)
+
+    predicted_class = np.argmax(predictions)
+    confidence = np.max(tf.nn.softmax(predictions)) * 100
+
+    st.success(f"Prediction : {class_names[predicted_class]}")
+    st.info(f"Confidence : {confidence:.2f}%")
+
 
 #Model Prediction
 predictions=model.predict(img_array)
@@ -57,5 +72,4 @@ confidence=np.max(tf.nn.softmax(predictions))*100
 st.success(f"Prediction : {class_names[predicted_class]}")
 st.info(f"Confidence : {confidence: .2f}%")
 
-#Rum The App 
-
+#Run The App 
