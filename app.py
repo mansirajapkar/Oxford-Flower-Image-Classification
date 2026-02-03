@@ -4,7 +4,7 @@ import gdown
 MODEL_PATH = "oxford_flower_model.keras"
 
 if not os.path.exists(MODEL_PATH):
-    url = "https://1drv.ms/u/c/376e03e0a6ed20bb/IQBMC0AH6t0lQ6qSKdgEbgX8AeAHMSgIyQqGywKzD6U3BRo?e=6xJXtG"
+    url = "https://drive.google.com/file/d/1_zETafXo_CaaAhft8ADgfbg5EojNcasa/view?usp=drive_link"
     gdown.download(url, MODEL_PATH, quiet=False)
 
 import tensorflow as tf
@@ -73,3 +73,4 @@ st.success(f"Prediction : {class_names[predicted_class]}")
 st.info(f"Confidence : {confidence: .2f}%")
 
 #Run The App 
+
